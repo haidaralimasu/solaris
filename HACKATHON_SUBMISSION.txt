@@ -93,7 +93,7 @@ https://solaris-self.vercel.app
 
 GITHUB / SOURCE
 ---------------
-(add your repo URL here)
+https://github.com/haidaralimasu/solaris
 
 
 DEMO NOTES FOR JUDGES
