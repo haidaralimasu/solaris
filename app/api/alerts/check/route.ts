@@ -110,10 +110,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
   } else {
     const signatures = sigInfos.map((s) => s.signature);
-    const txs = await connection.getParsedTransactions(signatures, {
-      maxSupportedTransactionVersion: 0,
-      commitment: "confirmed",
-    });
+    const txs = await Promise.all(
+      signatures.map((sig) =>
+        connection.getParsedTransaction(sig, {
+          maxSupportedTransactionVersion: 0,
+          commitment: "confirmed",
+        })
+      )
+    );
 
     for (let i = 0; i < sigInfos.length; i++) {
       const info = sigInfos[i];

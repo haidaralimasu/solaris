@@ -136,12 +136,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const signatures = sigInfos.map((s) => s.signature);
 
-  let txs: Awaited<ReturnType<typeof connection.getParsedTransactions>>;
+  let txs: (Awaited<ReturnType<typeof connection.getParsedTransaction>>)[];
   try {
-    txs = await connection.getParsedTransactions(signatures, {
-      maxSupportedTransactionVersion: 0,
-      commitment: "confirmed",
-    });
+    txs = await Promise.all(
+      signatures.map((sig) =>
+        connection.getParsedTransaction(sig, {
+          maxSupportedTransactionVersion: 0,
+          commitment: "confirmed",
+        })
+      )
+    );
   } catch (err) {
     const msg = err instanceof Error ? err.message : "RPC error fetching transactions";
     return NextResponse.json({ error: msg }, { status: 502 });
