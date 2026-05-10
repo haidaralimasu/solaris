@@ -110,11 +110,15 @@ Suggested walkthrough:
    JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4
    See success rate, CU analytics, and top callers.
 
-4. /circuit-breaker — configure an emergency instruction. Connect Phantom
-   or Solflare and see the one-click fire flow with wallet signing.
+4. /circuit-breaker — configure an emergency instruction (program ID + hex
+   data + accounts). Requires Phantom or Solflare to be installed to fire.
+   Without a wallet: review the UI — configure a breaker and see the full
+   setup flow. With a wallet on devnet: fire a live transaction in one click.
 
-5. /alerts — set a monitor on any active program. Events populate within
-   12 seconds of on-chain activity.
+5. /alerts — set a monitor on any active program (try JUP6 on mainnet for
+   instant results). In-app events populate within 12 seconds. Browser
+   notifications require clicking "Enable Notifications" in the UI.
+   Recommended: set condition to "Any activity" for fastest demo results.
 
 6. /wallet — enter any Solana wallet address for full portfolio + tx analytics.
 
