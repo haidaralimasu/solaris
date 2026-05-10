@@ -110,10 +110,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "RPC not configured" }, { status: 500 });
   }
 
-  const sigInfos = await connection.getSignaturesForAddress(programKey, {
-    limit,
-    ...(before ? { before } : {}),
-  });
+  let sigInfos: Awaited<ReturnType<typeof connection.getSignaturesForAddress>>;
+  try {
+    sigInfos = await connection.getSignaturesForAddress(programKey, {
+      limit,
+      ...(before ? { before } : {}),
+    });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "RPC error fetching signatures";
+    return NextResponse.json({ error: msg }, { status: 502 });
+  }
 
   if (sigInfos.length === 0) {
     const emptyStats = computeStats([], Date.now());
@@ -130,10 +136,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const signatures = sigInfos.map((s) => s.signature);
 
-  const txs = await connection.getParsedTransactions(signatures, {
-    maxSupportedTransactionVersion: 0,
-    commitment: "confirmed",
-  });
+  let txs: Awaited<ReturnType<typeof connection.getParsedTransactions>>;
+  try {
+    txs = await connection.getParsedTransactions(signatures, {
+      maxSupportedTransactionVersion: 0,
+      commitment: "confirmed",
+    });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "RPC error fetching transactions";
+    return NextResponse.json({ error: msg }, { status: 502 });
+  }
 
   const inspectTxs: InspectTx[] = sigInfos.map((info, i) => {
     const tx = txs[i];
