@@ -1,0 +1,131 @@
+COLESIUM HACKATHON — SOLARIS SUBMISSION
+========================================
+
+WHAT ARE YOU BUILDING, AND WHO IS IT FOR?
+------------------------------------------
+Solaris is a full developer operations platform for Solana — the Tenderly
+equivalent that the ecosystem has been missing.
+
+EVM developers have Tenderly: visual call traces, state diffs, gas profiling,
+alerts, and one-click kill switches. Solana developers have raw program logs.
+Solaris closes that gap end-to-end.
+
+Built for Solana protocol developers, DeFi teams, and smart contract engineers
+who need to understand, monitor, and protect their programs in production.
+
+Seven production-ready features:
+
+1. Transaction Debugger — Paste any mainnet/devnet signature. Full visual CPI
+   call tree with every program invoked, every account mutated, every compute
+   unit spent, and the exact failing instruction highlighted in red with plain-
+   English error explanation.
+
+2. Transaction Simulator — Build and simulate transactions before they hit the
+   chain. Manual mode (hex instruction data + account list) or IDL mode (upload
+   your Anchor IDL, pick an instruction, fill typed args). Full CPI trace and
+   state diff on simulated result.
+
+3. Program Inspector — Analytics dashboard for any on-chain program. Success
+   rate, median/average compute units, top callers, transaction history with
+   pagination, JSON export. Works on mainnet and devnet.
+
+4. Circuit Breaker (On-Chain Kill Switch) — Pre-configure emergency instructions
+   (program ID + hex data + accounts) that execute with one click via wallet
+   signing. When your protocol is under attack, fire the breaker — one click,
+   signed, broadcast. Full execution history with Solscan links.
+
+5. Real-Time Alerts — Monitor any Solana program for on-chain events. Conditions:
+   any activity, instruction discriminator match, error events, or large SOL
+   transfers above a threshold. 12-second polling with browser notifications.
+
+6. Wallet Tracker — Monitor any wallet: live SOL balance, SPL token holdings,
+   transaction history with lamport deltas, fee totals, CU stats, activity
+   analytics.
+
+7. CU Profiler — Per-program compute unit breakdown for any simulated or debugged
+   transaction. Bar chart color-coded by efficiency, with actionable notes on
+   whether to lower your compute unit limit request.
+
+
+WHY DID YOU DECIDE TO BUILD THIS, AND WHY BUILD IT NOW?
+--------------------------------------------------------
+Solana's composability is powerful but debugging cross-program invocations is
+painful. EVM developers have Tenderly ($40M+ raised, one of the most-used dev
+tools in EVM). Solana has nothing like it.
+
+With Helius RPC making high-fidelity transaction simulation accessible via API,
+the infrastructure is finally there. We built the experience layer on top.
+
+The timing is right: Solana is seeing real TVL growth and institutional adoption.
+When protocols hold real money, developers need production-grade tooling — not
+console.log debugging.
+
+
+WHAT TECHNOLOGIES ARE YOU USING OR INTEGRATING WITH?
+------------------------------------------------------
+- Next.js 16 (App Router, Server Components)
+- Tailwind CSS v4 (custom dark terminal design system)
+- TypeScript (end-to-end type safety)
+- Helius RPC — Solana transaction simulation and on-chain data (mainnet + devnet)
+- @solana/wallet-adapter-react — Phantom, Solflare, Coinbase, Ledger wallet support
+- @solana/web3.js — VersionedTransaction signing flow, on-chain data fetching
+- NextAuth v5 — GitHub and Google OAuth authentication
+- Vercel — hosting, serverless functions
+- Custom CPI log parser — reconstructs nested call trees from raw Solana program
+  logs, including compute units, fail reasons, and account state diffs
+- Borsh encoder — client-side instruction data encoding from IDL type definitions
+- Browser Notification API + localStorage — persistent alert rules and history
+
+
+PROJECT DESCRIPTION (500 characters)
+--------------------------------------
+Solaris is Tenderly for Solana: visual transaction debugger, simulator, program
+analytics, real-time event alerts, circuit-breaker kill switch, wallet tracker,
+and compute unit profiler — in one platform. Paste any mainnet transaction and
+see the full CPI call tree, account diffs, and failing instruction highlighted
+in red. Build and simulate from IDL before hitting the chain. Production-grade
+Solana developer tooling, free, no wallet required to start.
+
+
+LIVE URL
+---------
+https://solaris-self.vercel.app
+
+GITHUB / SOURCE
+---------------
+(add your repo URL here)
+
+
+DEMO NOTES FOR JUDGES
+----------------------
+Suggested walkthrough:
+
+1. /debug — paste any recent Jupiter v6 swap signature from solscan.io.
+   See the full nested CPI call tree with compute units and account diffs.
+
+2. /simulate — use the IDL tab to upload an Anchor IDL and simulate an
+   instruction before it hits mainnet. Or use manual mode with hex data.
+
+3. /inspect — enter Jupiter v6 program ID on mainnet:
+   JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4
+   See success rate, CU analytics, and top callers.
+
+4. /circuit-breaker — configure an emergency instruction. Connect Phantom
+   or Solflare and see the one-click fire flow with wallet signing.
+
+5. /alerts — set a monitor on any active program. Events populate within
+   12 seconds of on-chain activity.
+
+6. /wallet — enter any Solana wallet address for full portfolio + tx analytics.
+
+
+KEY DIFFERENTIATORS
+-------------------
+- Solscan/Explorer: read-only. No simulation, no alerts, no kill switch.
+- Anchor CLI: local only. No production monitoring, no visual debugger.
+- Helius raw API: infrastructure layer. No UX, no persistence, no alerting.
+- Tenderly: EVM only. The inspiration. Solaris is the Solana equivalent.
+
+Solaris is the only unified developer operations platform for Solana covering
+the full lifecycle: simulate before, debug after, monitor in production, respond
+to incidents in one click.
