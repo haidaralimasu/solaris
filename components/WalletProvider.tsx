@@ -3,14 +3,8 @@
 import { useMemo } from "react";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import {
-  PhantomWalletAdapter,
-  SolflareWalletAdapter,
-  CoinbaseWalletAdapter,
-  LedgerWalletAdapter,
-} from "@solana/wallet-adapter-wallets";
+import { LedgerWalletAdapter } from "@solana/wallet-adapter-wallets";
 
-// Import the wallet adapter modal styles
 import "@solana/wallet-adapter-react-ui/styles.css";
 
 interface SolarisWalletProviderProps {
@@ -19,15 +13,9 @@ interface SolarisWalletProviderProps {
 }
 
 export function SolarisWalletProvider({ children, endpoint }: SolarisWalletProviderProps) {
-  const wallets = useMemo(
-    () => [
-      new PhantomWalletAdapter(),
-      new SolflareWalletAdapter(),
-      new CoinbaseWalletAdapter(),
-      new LedgerWalletAdapter(),
-    ],
-    []
-  );
+  // Phantom, Solflare, and Coinbase support Wallet Standard and self-register.
+  // Passing their adapters explicitly causes double-registration and breaks connect.
+  const wallets = useMemo(() => [new LedgerWalletAdapter()], []);
 
   return (
     <ConnectionProvider endpoint={endpoint}>
