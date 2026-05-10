@@ -176,6 +176,18 @@ Email: AIHaidar@energi.team
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PLEASE SHARE ANY IMPORTANT CONTEXT ABOUT YOUR REPO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The repository at https://github.com/haidaralimasu/solaris is the complete, self-contained codebase for Solaris. It represents the entire product — nothing more, nothing less.
+
+- All 7 features (Transaction Debugger, Simulator, Program Inspector, Circuit Breaker, Alerts, Wallet Tracker, CU Profiler) are fully implemented in this repo and live at https://solaris-self.vercel.app.
+- The repo contains no unrelated products, placeholder pages, or stub features. Every route listed in the sidebar is functional.
+- The only external dependency is a Helius RPC API key (HELIUS_API_KEY) for on-chain data. The app falls back to the public Solana RPC if the key is not set.
+- Authentication (NextAuth v5 with GitHub/Google OAuth) is wired but not required to use any feature — all 7 tools work without signing in.
+- No part of the product is behind a paywall or requires special access to evaluate.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ADDITIONAL NOTES FOR JUDGES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Suggested demo walkthrough:
