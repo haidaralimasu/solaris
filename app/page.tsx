@@ -238,13 +238,13 @@ export default async function RootPage() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {[
             {
               num: "01",
-              color: "#3B82F6",
-              title: "Visual Call Tree",
-              body: "Every CPI invocation rendered as an interactive tree. Color-coded by protocol — Jupiter, Orca, Raydium, Token, System and 40+ more.",
+              color: "#F5A623",
+              title: "Transaction Debugger",
+              body: "Paste any mainnet signature. Full visual CPI call tree, account diffs, and the exact failing instruction highlighted in red.",
               icon: (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
@@ -253,23 +253,67 @@ export default async function RootPage() {
             },
             {
               num: "02",
-              color: "#F5A623",
-              title: "Transaction Debugger",
-              body: "Paste any mainnet signature. Solaris replays it against exact chain state and surfaces the failing instruction with its full error.",
+              color: "#3B82F6",
+              title: "Transaction Simulator",
+              body: "Build and simulate before hitting the chain. Manual hex mode or Anchor IDL mode — full CPI trace and state diff on simulated result.",
               icon: (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4Zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4Z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
                 </svg>
               ),
             },
             {
               num: "03",
-              color: "#22C55E",
-              title: "IDL Simulator",
-              body: "Paste your Anchor IDL and auto-generate instruction fields. Fill in accounts and args, simulate before the transaction ever hits the chain.",
+              color: "#14B8A6",
+              title: "Program Inspector",
+              body: "Analytics dashboard for any on-chain program. Success rate, median CU, top callers, full transaction history with pagination.",
               icon: (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+              ),
+            },
+            {
+              num: "04",
+              color: "#EF4444",
+              title: "Circuit Breaker",
+              body: "Pre-configure emergency on-chain instructions. One click + wallet signing to broadcast a kill switch when your protocol is under attack.",
+              icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                </svg>
+              ),
+            },
+            {
+              num: "05",
+              color: "#A855F7",
+              title: "Real-Time Alerts",
+              body: "Monitor any program for on-chain events. Any activity, discriminator match, errors, or large SOL transfers — 12-second polling with browser notifications.",
+              icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                </svg>
+              ),
+            },
+            {
+              num: "06",
+              color: "#22C55E",
+              title: "Wallet Tracker",
+              body: "Live SOL balance, SPL token holdings, transaction history with lamport deltas, fee totals, CU stats, and activity analytics for any wallet.",
+              icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a2.25 2.25 0 0 0-2.25-2.25H15a3 3 0 1 1-6 0H5.25A2.25 2.25 0 0 0 3 12m18 0v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 9m18 0V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v3" />
+                </svg>
+              ),
+            },
+            {
+              num: "07",
+              color: "#F59E0B",
+              title: "CU Profiler",
+              body: "Per-program compute unit breakdown for any transaction. Bar chart color-coded by efficiency with actionable notes on compute budget optimization.",
+              icon: (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-5 w-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
                 </svg>
               ),
             },
