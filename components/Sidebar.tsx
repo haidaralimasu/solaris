@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 interface SidebarProps {
   user?: {
@@ -77,7 +79,6 @@ const NAV_ITEMS = [
         <path fillRule="evenodd" d="M7.84 1.804A1 1 0 0 1 8.82 1h2.36a1 1 0 0 1 .98.804l.331 1.652a6.993 6.993 0 0 1 1.929 1.115l1.598-.54a1 1 0 0 1 1.186.447l1.18 2.044a1 1 0 0 1-.205 1.251l-1.267 1.113a7.047 7.047 0 0 1 0 2.228l1.267 1.113a1 1 0 0 1 .206 1.25l-1.18 2.045a1 1 0 0 1-1.187.447l-1.598-.54a6.993 6.993 0 0 1-1.929 1.115l-.33 1.652a1 1 0 0 1-.98.804H8.82a1 1 0 0 1-.98-.804l-.331-1.652a6.993 6.993 0 0 1-1.929-1.115l-1.598.54a1 1 0 0 1-1.186-.447l-1.18-2.044a1 1 0 0 1 .205-1.251l1.267-1.114a7.05 7.05 0 0 1 0-2.227L1.821 7.773a1 1 0 0 1-.206-1.25l1.18-2.045a1 1 0 0 1 1.187-.447l1.598.54A6.992 6.992 0 0 1 7.51 3.456l.33-1.652ZM10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clipRule="evenodd" />
       </svg>
     ),
-    disabled: true,
   },
 ];
 
@@ -93,20 +94,14 @@ function NavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?: () 
           return (
             <Link
               key={item.href}
-              href={item.disabled ? "#" : item.href}
-              onClick={item.disabled ? undefined : onNavigate}
+              href={item.href}
+              onClick={onNavigate}
               className={`relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-[14px] font-semibold transition-all
-                ${item.disabled
-                  ? "cursor-not-allowed text-[#2A3E52]"
-                  : isActive
-                    ? "text-[#F5A623]"
-                    : "text-[#4A6478] hover:text-[#9AAFC2]"
-                }`}
+                ${isActive ? "text-[#F5A623]" : "text-[#4A6478] hover:text-[#9AAFC2]"}`}
               style={isActive ? {
                 background: "rgba(245,166,35,0.06)",
                 boxShadow: "inset 0 0 0 1px rgba(245,166,35,0.1)",
               } : undefined}
-              aria-disabled={item.disabled}
             >
               {isActive && (
                 <span
@@ -118,16 +113,55 @@ function NavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?: () 
                 {item.icon}
               </span>
               {item.label}
-              {item.disabled && (
-                <span className="ml-auto rounded bg-[#0C1420] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#2A3E52]">
-                  Soon
-                </span>
-              )}
             </Link>
           );
         })}
       </div>
     </nav>
+  );
+}
+
+function WalletWidget() {
+  const { publicKey, disconnect, connecting } = useWallet();
+  const { setVisible } = useWalletModal();
+
+  if (connecting) {
+    return (
+      <div className="mx-3 mb-2 flex items-center gap-2 rounded-xl border border-[#1B2C3E] px-3 py-2">
+        <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#F5A623]" />
+        <span className="text-[11px] text-[#4A6478]">Connecting…</span>
+      </div>
+    );
+  }
+
+  if (publicKey) {
+    const addr = publicKey.toBase58();
+    const short = addr.slice(0, 4) + "…" + addr.slice(-4);
+    return (
+      <div className="mx-3 mb-2 flex items-center gap-2 rounded-xl px-3 py-2" style={{ background: "rgba(34,197,94,0.05)", border: "1px solid rgba(34,197,94,0.12)" }}>
+        <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#22C55E]" style={{ boxShadow: "0 0 5px #22C55E" }} />
+        <span className="flex-1 font-mono text-[11px] text-[#22C55E]" title={addr}>{short}</span>
+        <button
+          onClick={() => disconnect()}
+          className="text-[#2A3E52] transition-colors hover:text-[#EF4444] text-[10px] font-bold uppercase tracking-wider"
+          title="Disconnect wallet"
+        >
+          ✕
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <button
+      onClick={() => setVisible(true)}
+      className="mx-3 mb-2 flex w-[calc(100%-1.5rem)] items-center gap-2 rounded-xl border border-[#1B2C3E] px-3 py-2 text-[12px] font-semibold text-[#4A6478] transition-all hover:border-[#F5A623]/25 hover:text-[#9AAFC2]"
+    >
+      <svg viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5 flex-shrink-0">
+        <path d="M1 4.25a3.733 3.733 0 0 1 2.25-.75h13.5c.844 0 1.623.279 2.25.75A2.25 2.25 0 0 0 16.75 2H3.25A2.25 2.25 0 0 0 1 4.25ZM1 7.25a3.733 3.733 0 0 1 2.25-.75h13.5c.844 0 1.623.279 2.25.75A2.25 2.25 0 0 0 16.75 5H3.25A2.25 2.25 0 0 0 1 7.25ZM7 8a1 1 0 0 0-1 1 8 8 0 0 0 8 8h2a2.25 2.25 0 0 0 2.25-2.25v-1a2.25 2.25 0 0 0-2.25-2.25h-2a1 1 0 0 0-1 1v1.5a1 1 0 0 1-2 0V9a1 1 0 0 0-1-1H7Z" />
+      </svg>
+      Connect Wallet
+    </button>
   );
 }
 
@@ -222,6 +256,7 @@ export function Sidebar({ user }: SidebarProps) {
       >
         {brandSection}
         <NavLinks pathname={pathname} />
+        <WalletWidget />
         <UserFooter user={user} />
       </aside>
 
@@ -282,6 +317,7 @@ export function Sidebar({ user }: SidebarProps) {
               </button>
             </div>
             <NavLinks pathname={pathname} onNavigate={() => setMobileOpen(false)} />
+            <WalletWidget />
             <UserFooter user={user} />
           </aside>
         </>
